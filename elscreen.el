@@ -1291,17 +1291,14 @@ Use \\[toggle-read-only] to permit editing."
 
 ;;; Mode Line & Menu & Tab
 
-;; GNU Emacs
-(defvar elscreen-mode-line-string "[0]")
 (defun elscreen-mode-line-update ()
   (when (elscreen-screen-modified-p 'elscreen-mode-line-update)
-    (setq elscreen-mode-line-string
-          (format "[%d]" (elscreen-get-current-screen)))
     (force-mode-line-update)))
 
 (let ((point (memq 'mode-line-position mode-line-format))
-      (elscreen-mode-line-elm '(elscreen-display-screen-number
-                                (" " elscreen-mode-line-string))))
+      (elscreen-mode-line-elm
+       '(elscreen-display-screen-number
+         (:eval (format " [%d]" (elscreen-get-current-screen))))))
   (when (null (member elscreen-mode-line-elm mode-line-format))
     (setcdr point (cons elscreen-mode-line-elm (cdr point)))))
 
